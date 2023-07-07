@@ -4,6 +4,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
@@ -15,8 +19,22 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "username", unique = true)
+    @Size(min = 4, message = "(Name must be min 4 symbols)")
+    @NotBlank(message = "(Name is required field)")
+    @Pattern(regexp = "[A-Za-z0-9]+", message = "(Only letters of the" +
+            " Latin alphabet and numerals)")
     private String username;
+
+    @Column(name = "password")
+    @Size(min = 6, message = "(Password must be min 6 symbols)")
+    @NotBlank(message = "(Password is required field)")
+
     private String password;
+
+    @Column(name = "email")
+    @NotBlank(message = "(Email is required field)")
+    @Pattern(regexp = "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b",
+            message = "(Value does not match the standard email pattern)")
     private String email;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "users_roles",

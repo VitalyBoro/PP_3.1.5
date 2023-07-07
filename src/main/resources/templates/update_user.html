@@ -14,14 +14,18 @@
 
     <label for="username">Login</label>
     <input type="text" th:field="*{username}" id="username"/>
+    <p th:errors="*{username}"></p>
     <br><br>
 
-    <label for="username">Password</label>
+    <label for="password">Password</label>
     <input type="text" th:field="*{password}" id="password"/>
+    <p th:errors="*{password}"></p>
     <br><br>
 
     <label for="email">Email</label>
     <input type="email" th:field="*{email}" id="email"/>
+    <p th:errors="*{email}"></p>
+    <br><br>
     <br><br>
 
     <label>Roles:

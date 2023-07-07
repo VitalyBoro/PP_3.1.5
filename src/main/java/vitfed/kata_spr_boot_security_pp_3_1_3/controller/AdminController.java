@@ -3,10 +3,13 @@ package vitfed.kata_spr_boot_security_pp_3_1_3.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import vitfed.kata_spr_boot_security_pp_3_1_3.models.User;
 import vitfed.kata_spr_boot_security_pp_3_1_3.service.RoleService;
 import vitfed.kata_spr_boot_security_pp_3_1_3.service.UserService;
+
+import javax.validation.Valid;
 
 
 @Controller
@@ -30,10 +33,16 @@ public class AdminController {
         return "add_user";
     }
     @PostMapping("/saveUser") //сохранение
-    public String saveUser(@ModelAttribute("user") User user){
+    public String saveUser(@Valid @ModelAttribute("user") User user, BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            return "add_user";
+        }
         userService.addUser(user);
         return "redirect:/admin";
+
+
     }
+
     @PatchMapping("/updateUser")//редактирование
     public String updateUser(@RequestParam("id") Long id, Model model) {
         model.addAttribute("user", userService.getUser(id));
@@ -41,7 +50,10 @@ public class AdminController {
         return "update_user";
     }
     @PatchMapping("/updateUserData")
-    public String updateUserData(@ModelAttribute("update") User user) {
+    public String updateUserData(@Valid @ModelAttribute("update") User user, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            return "update_user";
+        }
         userService.updateUser(user);
         return "redirect:/admin";
     }
