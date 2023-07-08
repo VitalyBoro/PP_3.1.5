@@ -2,19 +2,26 @@ package vitfed.kata_spr_boot_security_pp_3_1_3.service;
 
 
 
-import vitfed.kata_spr_boot_security_pp_3_1_3.models.User;
+
+import vitfed.kata_spr_boot_security_pp_3_1_3.dto.UserDto;
+import vitfed.kata_spr_boot_security_pp_3_1_3.entity.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
+    List<User> getAllUsers();
+
+    User getUserById(Long id);
+
     void addUser(User user);
 
-    List<User> getUsers();
-
-    User getUser(Long id);
+    void removeUser(Long id);
 
     void updateUser(User user);
 
-    void deleteUser(Long id);
-    User findByUsername(String username);
+    Optional<User> findByUsername(String username);
+
+    User convertToUser(UserDto userDto);
+    UserDto convertToUserDto(User user);
 }
