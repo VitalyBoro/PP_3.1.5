@@ -13,6 +13,7 @@ import javax.validation.Valid;
 
 
 @Controller
+@RequestMapping("/admin")
 public class AdminController {
     private final UserService userService;
     private final RoleService roleService;
@@ -21,7 +22,7 @@ public class AdminController {
         this.userService = userService;
         this.roleService = roleService;
     }
-    @GetMapping("/admin")
+    @GetMapping("")
     public String findAll(Model model){
         model.addAttribute("users", userService.getUsers());
         return "table";
@@ -62,5 +63,10 @@ public class AdminController {
     public String deleteUser(@RequestParam("id") Long id) {
         userService.deleteUser(id);
         return "redirect:/admin";
+    }
+    @GetMapping("/userForAdmin")
+    public  String getUser (@RequestParam("id") Long id, Model model) {
+        model.addAttribute("user", userService.getUser(id));
+        return "user";
     }
 }

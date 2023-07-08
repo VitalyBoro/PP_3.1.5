@@ -11,7 +11,7 @@
 <br>
 
 
-<form th:method="post" th:action="@{/saveUser}" th:object="${user}">
+<form th:method="post" th:action="@{/admin/saveUser}" th:object="${user}">
     <input type="hidden" th:field="*{id}"/>
 
     <label for="username">Login</label>
@@ -39,9 +39,10 @@
     <br><br>
     <input type="submit" value="OK">
     <br><br>
-    <form th:method="POST" th:action="@{/logout}">
-        <input type="submit" value="Logout"/>
-    </form>
+
+</form>
+<form th:method="POST" th:action="@{/logout}">
+    <input type="submit" value="Logout"/>
 </form>
 </body>
 </html>

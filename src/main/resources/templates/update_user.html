@@ -9,7 +9,7 @@
 <h2>Update user</h2>
 <br>
 
-<form th:method="patch" th:action="@{/updateUserData}" th:object="${user}">
+<form th:method="patch" th:action="@{/admin/updateUserData}" th:object="${user}">
     <input type="hidden" th:field="*{id}"/>
 
     <label for="username">Login</label>
@@ -35,12 +35,15 @@
                th:value="${role.id}"
         />
     </label>
+
     <br><br>
-    <input type="submit" value="OK">
+
+   <input type="submit" value="OK">
     <br><br>
-    <form th:method="POST" th:action="@{/logout}">
-        <input type="submit" value="Logout"/>
-    </form>
+
+</form>
+<form th:method="POST" th:action="@{/logout}">
+    <input type="submit" value="Logout"/>
 </form>
 </body>
 </html>

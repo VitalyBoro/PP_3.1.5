@@ -1,22 +1,16 @@
 package vitfed.kata_spr_boot_security_pp_3_1_3.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import vitfed.kata_spr_boot_security_pp_3_1_3.models.Role;
 import vitfed.kata_spr_boot_security_pp_3_1_3.models.User;
 import vitfed.kata_spr_boot_security_pp_3_1_3.repository.UserRepository;
-
-
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Service
 public class UserServiceImp implements UserService, UserDetailsService {
@@ -28,24 +22,25 @@ public class UserServiceImp implements UserService, UserDetailsService {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
+
+    @Override
+    @Transactional(readOnly = true)
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = findByUsername(username);
+        UserDetails user = findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-                mapRolesToAuthorities(user.getRoles()));
+        return  user;
     }
 
-    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
-        return roles.stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
-    }
-
+   // private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
+       // return roles.stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
+   // }
     @Transactional
     @Override
     public void addUser(User user) {
@@ -59,7 +54,7 @@ public class UserServiceImp implements UserService, UserDetailsService {
         return userRepository.findAll();
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public User getUser(Long id) {
         return userRepository.getById(id);

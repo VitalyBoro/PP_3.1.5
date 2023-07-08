@@ -15,6 +15,7 @@
         <th scope="col">User Roles</th>
         <th scope="col">Update</th>
         <th scope="col">Delete</th>
+        <th scope="col">Page User</th>
     </tr>
     <tr th:each="user : ${users}">
         <td th:utext="${user.getUsername()}"></td>
@@ -24,20 +25,25 @@
             <li th:utext="${role.name}"></li>
         </th:block></td>
         <td>
-            <form th:method="patch" th:action="@{/updateUser}">
+            <form th:method="patch" th:action="@{/admin/updateUser}">
                 <button type="submit" th:name="id" th:value="${user.getId()}">Update</button>
             </form>
         </td>
         <td>
-            <form th:method="delete" th:action="@{/deleteUser}">
+            <form th:method="delete" th:action="@{/admin/deleteUser}">
                 <button type="submit" th:name="id" th:value="${user.getId()}">Delete</button>
+            </form>
+        </td>
+        <td>
+            <form th:method="get" th:action="@{/admin/userForAdmin}">
+                <button type="submit" th:name="id" th:value="${user.getId()}">User page</button>
             </form>
         </td>
     </tr>
 </table>
 
 <br>
-<form th:method="post" th:action="@{/addUser}">
+<form th:method="post" th:action="@{/admin/addUser}">
     <button type="submit">Add</button>
 </form>
 <br>
